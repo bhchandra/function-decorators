@@ -42,7 +42,7 @@ public final class Once {
 
     public static <T, R> Function<T, R> onceToFunc(Supplier<R> sup) {
         checkNotNull(sup);
-        return t -> onceSup(sup).get();
+        return t -> once(sup).get();
     }
 
     public static <T> Consumer<T> once(Consumer<T> cn) {
