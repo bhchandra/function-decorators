@@ -12,7 +12,7 @@ import static java.util.Collections.synchronizedList;
 
 public final class Once {
 
-    public static <T> Supplier<T> onceSup(Supplier<T> sup) {
+    public static <T> Supplier<T> once(Supplier<T> sup) {
         checkNotNull(sup);
         List<T> val = synchronizedList(new ArrayList<>(1));
         AtomicInteger oneTime = new AtomicInteger(0);
@@ -40,12 +40,12 @@ public final class Once {
         return onlyOnce;
     }
 
-    public static <T, R> Function<T, R> onceFunc(Supplier<R> sup) {
+    public static <T, R> Function<T, R> onceToFunc(Supplier<R> sup) {
         checkNotNull(sup);
         return t -> onceSup(sup).get();
     }
 
-    public static <T> Consumer<T> onceFunc(Consumer<T> cn) {
+    public static <T> Consumer<T> once(Consumer<T> cn) {
         AtomicInteger oneTime = new AtomicInteger(0);
         Consumer<T> onlyOnce = t -> {
             if (oneTime.get() < 1) {
