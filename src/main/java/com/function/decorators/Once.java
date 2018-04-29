@@ -10,6 +10,9 @@ import java.util.function.Supplier;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.synchronizedList;
 
+/**
+ * Makes a function execute only once.
+ */
 public final class Once {
 
     public static <T> Supplier<T> once(Supplier<T> sup) {
