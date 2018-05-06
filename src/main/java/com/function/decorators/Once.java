@@ -17,8 +17,10 @@ public final class Once {
 
     public static <T> Supplier<T> once(Supplier<T> sup) {
         checkNotNull(sup);
+
         List<T> val = synchronizedList(new ArrayList<>(1));
         AtomicInteger oneTime = new AtomicInteger(0);
+
         Supplier<T> onlyOnce = () -> {
             if (oneTime.get() < 1) {
                 val.add(sup.get());
@@ -31,8 +33,10 @@ public final class Once {
 
     public static <T, R> Function<T, R> once(Function<T, R> func) {
         checkNotNull(func);
+
         List<R> val = synchronizedList(new ArrayList<>(1));
         AtomicInteger oneTime = new AtomicInteger(0);
+
         Function<T, R> onlyOnce = t -> {
             if (oneTime.get() < 1) {
                 val.add(func.apply(t));

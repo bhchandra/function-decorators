@@ -20,6 +20,7 @@ public final class Throttle {
         checkNotNull(con, "consumer");
         checkNotNull(unit, "timeUnit");
         checkArgument(interval >= 0, "interval should be greater than or equal than zero");
+
         List<Long> lastExecuted = synchronizedList(new ArrayList<>(1));
         lastExecuted.add(null);
         long intervalNanos = unit.toNanos(interval);
@@ -42,6 +43,7 @@ public final class Throttle {
         checkNotNull(r, "runnable");
         checkNotNull(unit, "timeUnit");
         checkArgument(interval >= 0, "interval should be greater than or equal than zero");
+
         List<Long> lastExecuted = synchronizedList(new ArrayList<>(1));
         lastExecuted.add(null);
         long intervalNanos = unit.toNanos(interval);
@@ -60,7 +62,7 @@ public final class Throttle {
         };
     }
 
-
+    //unit test
     public static void main(String[] args) throws InterruptedException {
 
         Duration _1s = Duration.ofSeconds(1);

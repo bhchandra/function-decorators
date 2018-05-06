@@ -1,6 +1,5 @@
 package com.function.decorators;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,7 +11,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.synchronizedList;
 
 /**
- * Mostly useful for functions with side-effects.(i,e) consumers or runnables
+ * Create a function which is executed after it is called n times,
+ * mostly useful for functions with side-effects.(i,e) consumers or runnables.
  */
 public final class After {
 
@@ -21,7 +21,6 @@ public final class After {
         checkNotNull(cn);
 
         AtomicInteger runCount = new AtomicInteger(count);
-        List<T> val = synchronizedList(new ArrayList<>(1));
 
         return t -> {
             if (runCount.get() < 1) {
@@ -37,6 +36,7 @@ public final class After {
         checkNotNull(r);
 
         AtomicInteger runCount = new AtomicInteger(count);
+
         return () -> {
             if (runCount.get() < 1) {
                 r.run();
@@ -49,8 +49,10 @@ public final class After {
     public static <T> Supplier<T> after(int count, Supplier<T> sup) {
         checkArgument((count > 0), "count should be greater than zero");
         checkNotNull(sup);
+
         List<T> val = synchronizedList(new ArrayList<>(1));
         AtomicInteger runCount = new AtomicInteger(count);
+
         return () -> {
             if (runCount.get() < 1) {
                 return sup.get();
@@ -62,7 +64,7 @@ public final class After {
 
     }
 
-
+    //unit test
     public static void main(String[] args) {
 
         Consumer<String> print = System.out::println;
