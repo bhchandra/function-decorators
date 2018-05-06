@@ -62,8 +62,6 @@ public final class Throttle {
 
 
     public static void main(String[] args) throws InterruptedException {
-        List<Long> lastExecuted = synchronizedList(new ArrayList<>(1));
-        lastExecuted.add(null);
 
         Duration _1s = Duration.ofSeconds(1);
 
