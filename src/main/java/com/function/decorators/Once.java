@@ -19,32 +19,30 @@ public final class Once {
         checkNotNull(sup);
 
         List<T> val = synchronizedList(new ArrayList<>(1));
-        AtomicInteger oneTime = new AtomicInteger(0);
+        AtomicInteger runCount = new AtomicInteger(0);
 
-        Supplier<T> onlyOnce = () -> {
-            if (oneTime.get() < 1) {
+        return () -> {
+            if (runCount.get() < 1) {
                 val.add(sup.get());
-                oneTime.getAndIncrement();
+                runCount.getAndIncrement();
             }
             return val.get(0);
         };
-        return onlyOnce;
     }
 
     public static <T, R> Function<T, R> once(Function<T, R> func) {
         checkNotNull(func);
 
         List<R> val = synchronizedList(new ArrayList<>(1));
-        AtomicInteger oneTime = new AtomicInteger(0);
+        AtomicInteger runCount = new AtomicInteger(0);
 
-        Function<T, R> onlyOnce = t -> {
-            if (oneTime.get() < 1) {
+        return t -> {
+            if (runCount.get() < 1) {
                 val.add(func.apply(t));
-                oneTime.getAndIncrement();
+                runCount.getAndIncrement();
             }
             return val.get(0);
         };
-        return onlyOnce;
     }
 
     public static <T, R> Function<T, R> onceToFunc(Supplier<R> sup) {
@@ -53,13 +51,15 @@ public final class Once {
     }
 
     public static <T> Consumer<T> once(Consumer<T> cn) {
-        AtomicInteger oneTime = new AtomicInteger(0);
-        Consumer<T> onlyOnce = t -> {
-            if (oneTime.get() < 1) {
+        checkNotNull(cn);
+
+        AtomicInteger runCount = new AtomicInteger(0);
+
+        return t -> {
+            if (runCount.get() < 1) {
                 cn.accept(t);
-                oneTime.getAndIncrement();
+                runCount.getAndIncrement();
             }
         };
-        return onlyOnce;
     }
 }
